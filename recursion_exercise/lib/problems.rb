@@ -12,7 +12,8 @@
 # pow(3, 4) # => 81
 # pow(4, 3) # => 64
 def pow(base, exponent)
-
+    return 1 if exponent == 0
+    base * pow(base, exponent - 1)
 end
 
 
@@ -35,7 +36,10 @@ end
 # lucas_number(5)   # =>    11
 # lucas_number(9)   # =>    76
 def lucas_number(n)
+    return 2 if n == 0
+    return 1 if n == 1
 
+    lucas_number(n-1) + lucas_number(n - 2)
 end
 
 
@@ -50,8 +54,11 @@ end
 # sum_array([5])            # => 5
 # sum_array([5, 2])         # => 7
 # sum_array([4, 10, -1, 2]) # => 15
-def sum_array(array)
+def sum_array(array) # [4, 5, 6] => 15
+    return 0 if array.empty?
 
+    last = array.pop
+    last + sum_array(array)
 end
 
 
@@ -66,8 +73,11 @@ end
 # reverse_string("c")           # => "c"
 # reverse_string("internet")    # => "tenretni"
 # reverse_string("friends")     # => "sdneirf"
-def reverse_string(str)
+def reverse_string(str) # cats => stac
+    return "" if str.empty?
 
+    arr = str.split("")
+    arr.pop + reverse_string(arr.join(""))
 end
 
 
@@ -99,6 +109,15 @@ end
 #     1-dimensional array: ['some data']
 #     2-dimensional array: [['some data']]
 #     3-dimensional array: [[['some data']]]
-def flatten(data)
 
+
+def flatten(data) # ['this', ['problem', 'is'], [['pretty', 'tough'], [[':)']]]]
+    return [data] if !data.is_a?(Array)
+    flattened = []
+
+    data.each do |sub| # ['this',    ['problem', 'is'], [['pretty', 'tough'], [[':)']]]]
+        flattened += flatten(sub)
+    end
+
+    flattened
 end
